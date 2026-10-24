@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Tracker | CareerMatch AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #253456;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        header span {
+            color: #a7b9ff;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            color: #172554;
+            margin-bottom: 5px;
+        }
+
+        .heading p {
+            color: #71809d;
+            margin-top: 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            background: linear-gradient(100deg, #3983ff, #7656ee);
+            color: white;
+            border: 0;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #e5e9f5;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px #243b6708;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #172554;
+            font-size: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe4f3;
+            border-radius: 8px;
+            font: inherit;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #c9d8ff;
+            border-color: #7656ee;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 620px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #edf0f7;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8f9ff;
+            color: #71809d;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #eaf0ff;
+            color: #355b9a;
+            font-size: 12px;
+        }
+
+        .delete-button {
+            padding: 7px 10px;
+            background: #fff0f0;
+            color: #c03939;
+            border: 0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .empty {
+            text-align: center;
+            color: #71809d;
+            padding: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #172554;
+            color: #d4def5;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            header {
+                padding: 18px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>CareerMatch <span>AI</span></h2>
+    <a href="/">← Home</a>
+</header>
+
+<main>
+
+    <section class="heading">
+        <div>
+            <h1>Job Application Tracker 📋</h1>
+            <p>Organise your applications and track your progress.</p>
+        </div>
+
+        <a href="#add-application" class="button">
+            + Add Application
+        </a>
+    </section>
+
+
+    <section class="card" id="add-application">
+        <h2>Add a Job Application</h2>
+
+        <form action="/tracker/add" method="POST">
+
+            <div class="form-grid">
+
+                <div>
+                    <label for="company">Company Name</label>
+                    <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        placeholder="e.g. Infosys"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="job_role">Job Role</label>
+                    <input
+                        type="text"
+                        id="job_role"
+                        name="job_role"
+                        placeholder="e.g. Python Developer"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="applied_date">Application Date</label>
+                    <input
+                        type="date"
+                        id="applied_date"
+                        name="applied_date"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="status">Application Status</label>
+                    <select id="status" name="status">
+                        <option value="Applied">Applied</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Offer">Offer</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="button">
+                    Save Application
+                </button>
+            </div>
+
+        </form>
+    </section>
+
+
+    <section class="card">
+        <h2>Your Applications</h2>
+
+        {% if applications %}
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Job Role</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for application in applications %}
+                    <tr>
+                        <td>{{ application['company'] }}</td>
+                        <td>{{ application['job_role'] }}</td>
+                        <td>{{ application['applied_date'] }}</td>
+                        ```html
+<td>
+    <form action="/tracker/update/{{ application['id'] }}" method="POST">
+        <select name="status" onchange="this.form.submit()">
+            <option value="Applied" {% if application['status'] == 'Applied' %}selected{% endif %}>Applied</option>
+            <option value="Interview" {% if application['status'] == 'Interview' %}selected{% endif %}>Interview</option>
+            <option value="Selected" {% if application['status'] == 'Selected' %}selected{% endif %}>Selected</option>
+            <option value="Rejected" {% if application['status'] == 'Rejected' %}selected{% endif %}>Rejected</option>
+        </select>
+    </form>
+</td>
+
+                        <td>
+                            <form
+                                action="/tracker/delete/{{ application['id'] }}"
+                                method="POST"
+                                onsubmit="return confirm('Delete this application?');"
+                            >
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            <p>📂 No applications added yet.</p>
+            <p>Add your first job application using the form above.</p>
+        </div>
+
+        {% endif %}
+    </section>
+
+</main>
+
+<footer>
+    CareerMatch AI | Build your future, one skill at a time.
+</footer>
+
+</body>
+</html>

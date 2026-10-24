@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerMatch AI | Find Your Best Job Match</title>
+
+    <meta name="description"
+          content="Analyse your resume, compare job requirements,
+          and discover skills to improve with CareerMatch AI.">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --navy: #172554;
+            --blue: #377dff;
+            --purple: #7957ee;
+            --text: #253456;
+            --muted: #71809d;
+            --background: #f5f7ff;
+            --border: #e3e9f6;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background:
+                radial-gradient(ellipse at 90% 10%,
+                    #e6e8ff 0%, transparent 32%),
+                var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* NAVIGATION */
+
+        .navbar {
+            background: var(--navy);
+            color: white;
+            padding: 17px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #3985ff, #9063f5);
+            border-radius: 13px;
+            font-size: 24px;
+        }
+
+        .brand-name {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .brand-name span {
+            color: #a7b9ff;
+        }
+
+        .brand-tagline {
+            color: #c5d0e8;
+            font-size: 11px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: #e0e7ff;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #a7b9ff;
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 65px 25px 40px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: #e8eaff;
+            color: #6252d9;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 4.5vw, 56px);
+            line-height: 1.13;
+            letter-spacing: -2px;
+            color: var(--navy);
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #397dff, #8655e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 540px;
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        .hero-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .hero-points span {
+            color: #475779;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .hero-points span::before {
+            content: "✓";
+            color: #10a981;
+            font-weight: 800;
+            margin-right: 7px;
+        }
+
+        /* HERO ILLUSTRATION */
+
+        .hero-art {
+            min-height: 280px;
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+
+        .art-circle {
+            position: absolute;
+            width: 245px;
+            height: 245px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dce4ff, #e9ddff);
+        }
+
+        .resume-illustration {
+            position: relative;
+            z-index: 1;
+            width: 225px;
+            padding: 25px;
+            background: white;
+            border: 1px solid #edf0ff;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px #4454a426;
+            transform: rotate(-4deg);
+        }
+
+        .resume-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c9dcff, #e4d5ff);
+        }
+
+        .fake-line {
+            height: 8px;
+            background: #e7ecfb;
+            border-radius: 10px;
+            margin: 9px 0;
+        }
+
+        .fake-line.short {
+            width: 60%;
+        }
+
+        .fake-line.medium {
+            width: 80%;
+        }
+
+        .resume-check {
+            color: #10a981;
+            background: #e8faf3;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-top: 18px;
+            font-weight: 700;
+        }
+
+        .floating-card {
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            bottom: 25px;
+            padding: 15px 18px;
+            border-radius: 13px;
+            background: white;
+            box-shadow: 0 12px 35px #4454a41a;
+            font-size: 12px;
+        }
+
+        .floating-card strong {
+            display: block;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .floating-card span {
+            color: #10a981;
+        }
+
+        /* ANALYSIS FORM */
+
+        .analysis-section {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 25px 65px;
+            scroll-margin-top: 25px;
+        }
+
+        .analysis-card {
+            background: #ffffff;
+            border: 1px solid #e5eaff;
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow: 0 20px 65px #3e60a20d;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .heading-icon {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: #eaf0ff;
+            border-radius: 16px;
+            font-size: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 23px;
+            letter-spacing: -0.7px;
+            color: var(--navy);
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .form-panel {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: #fbfcff;
+            min-width: 0;
+        }
+
+        .upload-panel {
+            background: linear-gradient(145deg, #f1f7ff, #fbfcff);
+            border-color: #d9e7ff;
+        }
+
+        .job-panel {
+            background: linear-gradient(145deg, #f8f4ff, #fdfcff);
+            border-color: #e8ddff;
+        }
+
+        .panel-title {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        .panel-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: white;
+            border-radius: 13px;
+            font-size: 21px;
+        }
+
+        .panel-title h3 {
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .panel-description {
+            color: var(--muted);
+            font-size: 11px;
+            margin: 0 0 18px 55px;
+        }
+
+        /* FILE UPLOAD */
+
+        .file-drop {
+            display: block;
+            border: 2px dashed #c7d8fa;
+            background: #ffffffb8;
+            border-radius: 13px;
+            text-align: center;
+            padding: 27px 15px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .file-drop:hover {
+            border-color: var(--blue);
+            background: white;
+        }
+
+        .upload-symbol {
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .file-drop strong {
+            display: block;
+            color: #355b9a;
+            font-size: 13px;
+        }
+
+        .file-drop small {
+            display: block;
+            color: var(--muted);
+            margin-top: 5px;
+            font-size: 11px;
+        }
+
+        #resume {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #resume:focus-visible + .file-drop {
+            outline: 3px solid #8db5ff;
+            outline-offset: 3px;
+        }
+
+        .file-name {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #3568c4;
+            overflow-wrap: anywhere;
+        }
+
+        /* JOB DESCRIPTION */
+
+        textarea {
+            width: 100%;
+            min-height: 210px;
+            resize: vertical;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--text);
+            border: 1px solid #dfe4f3;
+            border-radius: 12px;
+            background: white;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            border-color: #9278f5;
+            box-shadow: 0 0 0 4px #8c72f51a;
+        }
+
+        textarea::placeholder {
+            color: #9aa7bd;
+        }
+
+        .character-count {
+            text-align: right;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        /* BUTTON */
+
+        .submit-area {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .analyze-button {
+            width: min(100%, 430px);
+            min-height: 55px;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(100deg, #3983ff, #7656ee);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px #6b66ee30;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px #6b66ee45;
+        }
+
+        .analyze-button:active {
+            transform: translateY(0);
+        }
+
+        .privacy-note {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 15px;
+        }
+
+        /* FEATURES */
+
+        .features {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 25px 75px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: #ffffffb8;
+            border: 1px solid #e8ecf8;
+            border-radius: 16px;
+            padding: 23px 15px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px #334d7c10;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 13px;
+            border-radius: 15px;
+            font-size: 23px;
+        }
+
+        .blue-icon {
+            background: #e4efff;
+        }
+
+        .purple-icon {
+            background: #eee7ff;
+        }
+
+        .orange-icon {
+            background: #fff0df;
+        }
+
+        .green-icon {
+            background: #ddf8ed;
+        }
+
+        .feature-card h3 {
+            font-size: 13px;
+            margin-bottom: 7px;
+            color: var(--navy);
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: var(--navy);
+            color: #d4def5;
+            padding: 23px 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 850px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 45px;
+            }
+
+            .hero-art {
+                min-height: 260px;
+            }
+
+            .floating-card {
+                right: 8%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 520px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+            .brand-icon {
+                width: 39px;
+                height: 39px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 42px 20px 30px;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-art {
+                min-height: 235px;
+            }
+
+            .art-circle {
+                width: 205px;
+                height: 205px;
+            }
+
+            .resume-illustration {
+                width: 190px;
+            }
+
+            .floating-card {
+                right: 0;
+                bottom: 5px;
+                font-size: 10px;
+            }
+
+            .analysis-section {
+                padding: 0 14px 45px;
+            }
+
+            .analysis-card {
+                padding: 20px 15px;
+                border-radius: 17px;
+            }
+
+            .section-heading h2 {
+                font-size: 19px;
+            }
+
+            .section-heading p {
+                font-size: 11px;
+            }
+
+            .form-panel {
+                padding: 16px 12px;
+            }
+
+            .features {
+                padding: 0 14px 45px;
+                gap: 10px;
+            }
+
+            .feature-card {
+                padding: 18px 10px;
+            }
+
+            .feature-card p {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">💼</div>
+
+            <div>
+                <div class="brand-name">
+                    CareerMatch <span>AI</span>
+                </div>
+
+                <div class="brand-tagline">
+                    Your Resume · Our AI · Better Opportunities
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#features">Features</a>
+            <a href="#analyzer">Analyze Resume</a>
+            <a href="/tracker">Job Tracker</a>
+        </nav>
+    </header>
+
+
+    <!-- HERO SECTION -->
+
+    <main>
+        <section class="hero">
+
+            <div>
+                <span class="eyebrow">
+                    ✨ SMART RESUME ANALYSIS
+                </span>
+
+                <h1>
+                    Find Your Best<br>
+                    <span class="gradient-text">Job Match.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Your next opportunity starts here. Compare your resume
+                    with a job description, discover matching skills, and
+                    identify areas where you can improve.
+                </p>
+
+                <div class="hero-points">
+                    <span>Instant analysis</span>
+                    <span>Skill gap insights</span>
+                    <span>Simple to use</span>
+                </div>
+            </div>
+
+
+            <div class="hero-art" aria-hidden="true">
+                <div class="art-circle"></div>
+
+                <div class="resume-illustration">
+                    <div class="resume-top">
+                        <div class="avatar"></div>
+
+                        <div style="flex: 1;">
+                            <div class="fake-line medium"></div>
+                            <div class="fake-line short"></div>
+                        </div>
+                    </div>
+
+                    <div class="fake-line"></div>
+                    <div class="fake-line medium"></div>
+                    <div class="fake-line short"></div>
+                    <div class="fake-line"></div>
+
+                    <div class="resume-check">
+                        ✓ &nbsp; Resume ready for analysis
+                    </div>
+                </div>
+
+                <div class="floating-card">
+                    <strong>Better Career Insights</strong>
+                    <span>✓ Discover your skill gaps</span>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- RESUME ANALYZER -->
+
+        <section class="analysis-section" id="analyzer">
+
+            <div class="analysis-card">
+
+                <div class="section-heading">
+                    <div class="heading-icon">📄</div>
+
+                    <div>
+                        <h2>Analyze Your Resume</h2>
+                        <p>
+                            Upload your resume and add the job description
+                            to get your results.
+                        </p>
+                    </div>
+                </div>
+
+
+                <form action="/analyze"
+                      method="POST"
+                      enctype="multipart/form-data">
+
+                    <div class="form-grid">
+
+                        <!-- RESUME UPLOAD -->
+
+                        <div class="form-panel upload-panel">
+
+                            <div class="panel-title">
+                                <div class="panel-icon">☁️</div>
+
+                                <h3>Upload Your Resume</h3>
+                            </div>
+
+                            <p class="panel-description">
+                                Select your resume in PDF format.
+                            </p>
+
+                            <input
+                                type="file"
+                                id="resume"
+                                name="resume"
+                                accept=".pdf,application/pdf"
+                                required
+                            >
+
+                            <label for="resume" class="file-drop">
+                                <div class="upload-symbol">📄</div>
+
+                                <strong id="upload-text">
+                                    Click to upload your resume
+                                </strong>
+
+                                <small id="upload-help">
+                                    PDF file · Maximum 5 MB
+                                </small>
+                            </label>
+
+                            <div class="file-name"
+                                 id="file-name"
+                                 aria-live="polite"></div>
+
+                        </div>
+
+
+                        <!-- JOB DESCRIPTION -->
+
+                        <div class="form-panel job-panel">
+
+                            <div class="panel-title">
+                                <div class="panel-icon">📝</div>
+
+                                <h3>Job Description</h3>
+                            </div>
+
+                            <p class="panel-description">
+                                Paste the job requirements below.
+                            </p>
+
+                            <textarea
+                                id="job_description"
+                                name="job_description"
+                                maxlength="10000"
+                                placeholder="Example: We are looking for a Python developer with knowledge of SQL, Flask, HTML, CSS, and problem solving..."
+                                required
+                            ></textarea>
+
+                            <div class="character-count">
+                                <span id="char-count">0</span> / 10000
+                                characters
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUBMIT BUTTON -->
+
+                    <div class="submit-area">
+
+                        <button type="submit" class="analyze-button">
+                            ✨ &nbsp; Analyze My Resume &nbsp; →
+                        </button>
+
+                        <p class="privacy-note">
+                            🔒 Your resume is processed for analysis.
+                            Avoid uploading documents containing sensitive
+                            personal information.
+                        </p>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="features" id="features">
+
+            <article class="feature-card">
+                <div class="feature-icon blue-icon">🎯</div>
+
+                <h3>Match Percentage</h3>
+
+                <p>
+                    See how your recognised skills align with the
+                    job requirements.
+                </p>
+            </article>
+
+
+            <article class="feature-card">
+                <div class="feature-icon purple-icon">⭐</div>
+
+                <h3>Matched Skills</h3>
+
+                <p>
+                    Identify skills found in both your resume
+                    and the job description.
+                </p>
+            </article>
+
+
+            <article class="feature-card">
+                <div class="feature-icon orange-icon">🔎</div>
+
+                <h3>Missing Skills</h3>
+
+                <p>
+                    Discover job-related skills that may need
+                    more attention.
+                </p>
+            </article>
+
+
+            <article class="feature-card">
+                <div class="feature-icon green-icon">📈</div>
+
+                <h3>Career Growth</h3>
+
+                <p>
+                    Use your results to guide your learning
+                    and resume improvements.
+                </p>
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        <strong>CareerMatch AI</strong>
+        &nbsp; | &nbsp;
+        Build your future, one skill at a time.
+    </footer>
+
+
+    <!-- SMALL INTERACTIONS -->
+
+    <script>
+        const resumeInput = document.getElementById("resume");
+        const fileName = document.getElementById("file-name");
+        const uploadText = document.getElementById("upload-text");
+        const uploadHelp = document.getElementById("upload-help");
+
+        const jobDescription =
+            document.getElementById("job_description");
+
+        const charCount = document.getElementById("char-count");
+
+        resumeInput.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (!file) {
+                fileName.textContent = "";
+                uploadText.textContent = "Click to upload your resume";
+                uploadHelp.textContent = "PDF file · Maximum 5 MB";
+                return;
+            }
+
+            const isPdf =
+                file.name.toLowerCase().endsWith(".pdf") &&
+                (file.type === "application/pdf" || file.type === "");
+
+            if (!isPdf) {
+                alert("Please select a PDF resume.");
+                this.value = "";
+                fileName.textContent = "";
+                uploadText.textContent = "Click to upload your resume";
+                uploadHelp.textContent = "PDF file · Maximum 5 MB";
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Please select a PDF smaller than 5 MB.");
+                this.value = "";
+                fileName.textContent = "";
+                uploadText.textContent = "Click to upload your resume";
+                uploadHelp.textContent = "PDF file · Maximum 5 MB";
+                return;
+            }
+
+            fileName.textContent = "✓ Selected: " + file.name;
+            uploadText.textContent = "Resume selected successfully";
+            uploadHelp.textContent = "Ready for analysis";
+        });
+
+        jobDescription.addEventListener("input", function () {
+            charCount.textContent = this.value.length;
+        });
+    </script>
+
+</body>
+</html>

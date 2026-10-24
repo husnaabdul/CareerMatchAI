@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis Results | CareerMatch AI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #253456;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            font-size: 22px;
+        }
+
+        header span {
+            color: #a7b9ff;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: #172554;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #71809d;
+        }
+
+        .score-card {
+            background: linear-gradient(120deg, #ffffff, #f0efff);
+            border: 1px solid #e3e7fa;
+            border-radius: 20px;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            box-shadow: 0 12px 35px #243b6710;
+        }
+
+        .score-circle {
+            width: 155px;
+            height: 155px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: conic-gradient(
+                #7656ee {{ match_percentage }}%,
+                #e4e8f5 {{ match_percentage }}% 100%
+            );
+            position: relative;
+        }
+
+        .score-inner {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-number {
+            font-size: 35px;
+            font-weight: bold;
+            color: #172554;
+        }
+
+        .score-label {
+            font-size: 11px;
+            color: #71809d;
+        }
+
+        .score-info h2 {
+            font-size: 23px;
+            color: #172554;
+            margin-bottom: 8px;
+        }
+
+        .score-info p {
+            color: #71809d;
+            font-size: 14px;
+        }
+
+        .score-note {
+            font-size: 12px !important;
+            margin-top: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e9f5;
+            border-radius: 15px;
+            padding: 23px;
+            box-shadow: 0 8px 20px #243b6708;
+        }
+
+        .stat-card p {
+            color: #71809d;
+            font-size: 13px;
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            margin-top: 7px;
+        }
+
+        .stat-card:nth-child(1) h3 {
+            color: #7656ee;
+        }
+
+        .stat-card:nth-child(2) h3 {
+            color: #0b9b75;
+        }
+
+        .stat-card:nth-child(3) h3 {
+            color: #e98b32;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .skills-card {
+            background: white;
+            padding: 25px;
+            border-radius: 17px;
+            border: 1px solid #e5e9f5;
+            box-shadow: 0 8px 20px #243b6708;
+            min-width: 0;
+        }
+
+        .skills-card h2 {
+            font-size: 18px;
+            color: #172554;
+            margin-bottom: 6px;
+        }
+
+        .skills-card > p {
+            color: #71809d;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .skill {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .matched {
+            background: #e4f8ef;
+            color: #087c59;
+        }
+
+        .missing {
+            background: #fff0df;
+            color: #b76716;
+        }
+
+        .all-skills {
+            background: #eeebff;
+            color: #6248c5;
+        }
+
+        .empty {
+            color: #8995aa;
+            font-size: 13px;
+        }
+
+        .action-area {
+            text-align: center;
+            margin: 35px 0 50px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(100deg, #3983ff, #7656ee);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: #172554;
+            color: #d4def5;
+            text-align: center;
+            padding: 22px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .score-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px 18px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            header {
+                padding: 17px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>CareerMatch <span>AI</span></h2>
+        <a href="/">← Back to Home</a>
+    </header>
+
+    <main class="container">
+
+        <div class="page-heading">
+            <h1>Your Resume Analysis 📊</h1>
+            <p>Here's how your recognised skills compare with the job description.</p>
+        </div>
+
+        <!-- MATCH SCORE -->
+
+        <section class="score-card">
+
+            <div class="score-circle">
+                <div class="score-inner">
+                    <span class="score-number">
+                        {{ match_percentage }}%
+                    </span>
+                    <span class="score-label">Keyword Match</span>
+                </div>
+            </div>
+
+            <div class="score-info">
+                <h2>Your Analysis Is Ready!</h2>
+
+                <p>
+                    Review the skills found in your resume and the
+                    recognised skills mentioned in the job description.
+                </p>
+
+                <p class="score-note">
+                    This percentage measures keyword overlap among
+                    recognised skills. It does not measure your overall
+                    suitability for the role or guarantee an interview.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <p>Recognised Job Skills</p>
+                <h3>{{ job_skills|length }}</h3>
+            </div>
+
+            <div class="stat-card">
+                <p>Matched Skills</p>
+                <h3>{{ matched_skills|length }}</h3>
+            </div>
+
+            <div class="stat-card">
+                <p>Skills to Develop</p>
+                <h3>{{ missing_skills|length }}</h3>
+            </div>
+
+        </section>
+
+
+        <!-- SKILL DETAILS -->
+
+        <section class="skills-grid">
+
+            <div class="skills-card">
+                <h2>✅ Matched Skills</h2>
+                <p>Skills found in both documents.</p>
+
+                <div class="skill-list">
+                    {% for skill in matched_skills %}
+                        <span class="skill matched">{{ skill }}</span>
+                    {% else %}
+                        <p class="empty">No matching skills were identified.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="skills-card">
+                <h2>📚 Skills to Consider Developing</h2>
+                <p>Recognised job skills not found in your resume.</p>
+
+                <div class="skill-list">
+                    {% for skill in missing_skills %}
+                        <span class="skill missing">{{ skill }}</span>
+                    {% else %}
+                        <p class="empty">No missing skills were identified.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="skills-card">
+                <h2>💼 Skills in Your Resume</h2>
+                <p>Recognised skills detected in your resume.</p>
+
+                <div class="skill-list">
+                    {% for skill in resume_skills %}
+                        <span class="skill all-skills">{{ skill }}</span>
+                    {% else %}
+                        <p class="empty">No recognised skills were found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="skills-card">
+                <h2>💡 What Should You Do Next?</h2>
+                <p>Use these results as a starting point.</p>
+
+                <ul style="padding-left: 20px; color: #71809d; font-size: 13px;">
+                    <li>Review the job requirements carefully.</li>
+                    <li>Learn relevant skills you genuinely need.</li>
+                    <li>Add real projects that demonstrate your abilities.</li>
+                    <li>Update your resume with accurate information.</li>
+                </ul>
+            </div>
+
+        </section>
+
+
+        <div class="action-area">
+            <a href="/" class="action-button">
+                ↻ &nbsp; Analyze Another Resume
+            </a>
+        </div>
+
+    </main>
+
+    <footer>
+        CareerMatch AI | Build your future, one skill at a time.
+    </footer>
+
+</body>
+</html>
